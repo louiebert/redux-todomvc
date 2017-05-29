@@ -5,10 +5,21 @@
     ],
     "jsRules": {},
     "rules": {
-      "typedef": true,
-      "semicolon": [true, "always"],
+      "interface-name": [true, "never-prefix"],
+      "member-access": false,
+      "no-console": [false],
+      "no-trailing-whitespace": false,
+      "ordered-imports": [
+        true,
+        {
+          "named-imports-order": "case-insensitive",
+          "import-sources-order": "any"
+        }
+      ],
       "quotemark": "single",
-      "no-console": [false]
+      "semicolon": [true, "always"],
+      "trailing-comma": false,
+      "typedef": true
     },
     "rulesDirectory": []
 }
