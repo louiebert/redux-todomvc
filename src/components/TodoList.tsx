@@ -7,6 +7,9 @@ import TodoItem from './TodoItem';
 interface Props {
   todos: List<Map<string, any>>;
   filter?: string;
+  toggleComplete?(id: string);
+  deleteItem?(id: string);
+  editItem?(id: string);
 }
 
 class TodoList extends React.PureComponent<Props, {}> {
@@ -23,6 +26,10 @@ class TodoList extends React.PureComponent<Props, {}> {
     return null;
   }
 
+  isCompleted(item) {
+    return item.get('status') === 'completed';
+  }
+
   // Checkbox `checked` property
   render() {
     return (
@@ -30,7 +37,15 @@ class TodoList extends React.PureComponent<Props, {}> {
         <section className="main">
           <UIList>
             { this.getItems().map((item) =>
-              <TodoItem text={ item.get('text') } key={ item.get('text') } />
+              <TodoItem
+                text={item.get('text')}
+                isCompleted={this.isCompleted(item)}
+                isEditing={item.get('editing')}
+                key={item.get('text')}
+                toggleComplete={this.props.toggleComplete}
+                deleteItem={this.props.deleteItem}
+                editItem={this.props.editItem}
+              />
             ) }
           </UIList>
         </section>

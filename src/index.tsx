@@ -5,6 +5,8 @@ import * as injectTapEventPlugin from 'react-tap-event-plugin';
 
 import TodoApp from './components/TodoApp';
 
+import './styles/main.scss';
+
 injectTapEventPlugin();
 
 const todos = List.of(

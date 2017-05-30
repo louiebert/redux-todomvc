@@ -9,6 +9,7 @@
       "member-access": false,
       "no-console": [false],
       "no-trailing-whitespace": false,
+      "object-literal-sort-keys": false,
       "ordered-imports": [
         true,
         {

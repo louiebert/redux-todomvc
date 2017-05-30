@@ -1,8 +1,15 @@
 import * as React from 'react';
+import * as classNames from 'classnames';
 import { Checkbox, FlatButton, ListItem, TextField } from 'material-ui';
 
 interface Props {
+  id?: string;
   text: string;
+  isCompleted?: boolean;
+  isEditing?: boolean;
+  deleteItem?(id: string);
+  editItem?(id: string);
+  toggleComplete?(id: string);
 }
 
 class TodoList extends React.PureComponent<Props, {}> {
@@ -10,17 +17,34 @@ class TodoList extends React.PureComponent<Props, {}> {
     super(props);
   }
 
-  // Checkbox `checked` property
   render() {
+    const itemClass = classNames({
+      'todo-item': true,
+      'completed': this.props.isCompleted,
+      'editing': this.props.isEditing
+    });
+
     return (
       <ListItem
-        className="todo-item"
-        primaryText={ this.props.text }
-        leftCheckbox={ <Checkbox /> }
+        className={itemClass}
+        primaryText={this.props.text}
+        leftCheckbox={
+          <Checkbox
+            className="checkbox"
+            checked={this.props.isCompleted || false}
+            onClick={() => this.props.toggleComplete(this.props.id)}
+          />
+        }
         style={{fontFamily: 'Roboto'}}
+        onDoubleClick={() => this.props.editItem(this.props.id)}
       >
         <TextField hintText={this.props.text} />
-        <FlatButton label="Destroy" secondary={true} />
+        <FlatButton
+          className="destroy"
+          label="Destroy"
+          secondary={true}
+          onClick={() => this.props.deleteItem(this.props.id)}
+        />
       </ListItem>
     );
   }

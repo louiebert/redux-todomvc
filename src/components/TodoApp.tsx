@@ -18,7 +18,7 @@ class TodoApp extends React.Component<Props, {}> {
     return (
       <MuiThemeProvider>
         <section className="todoapp">
-          <TodoList todos={ this.props.todos } filter={this.props.filter} />
+          <TodoList todos={this.props.todos} filter={this.props.filter} />
         </section>
       </MuiThemeProvider>
     );
