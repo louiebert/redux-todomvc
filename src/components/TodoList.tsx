@@ -30,7 +30,6 @@ class TodoList extends React.PureComponent<Props, {}> {
     return item.get('status') === 'completed';
   }
 
-  // Checkbox `checked` property
   render() {
     return (
       <div>

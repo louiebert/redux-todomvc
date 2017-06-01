@@ -104,7 +104,7 @@ describe('TodoItem', () => {
 
     Simulate.click(checkbox[0]);
 
-    expect((checkbox[0] as HTMLInputElement).checked).to.equal(true);
+    expect(isChecked).to.equal(true);
   });
 
   it('invokes callback when text is double clicked', () => {
@@ -115,7 +115,7 @@ describe('TodoItem', () => {
         <TodoItem text={text} editItem={editItem} />
       </MuiThemeProvider>
     );
-    const todo = findRenderedComponentWithType((component as TodoItem), TodoItem);
+    const todo = findRenderedComponentWithType((component as React.Component<any, any>), TodoItem);
     const label = todo.refs.text;
 
     Simulate.doubleClick(label);

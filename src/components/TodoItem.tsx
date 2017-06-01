@@ -12,7 +12,7 @@ interface Props {
   toggleComplete?(id: string);
 }
 
-class TodoList extends React.PureComponent<Props, {}> {
+class TodoItem extends React.PureComponent<Props, {}> {
   constructor(props: Props) {
     super(props);
   }
@@ -27,7 +27,7 @@ class TodoList extends React.PureComponent<Props, {}> {
     return (
       <ListItem
         className={itemClass}
-        primaryText={this.props.text}
+        primaryText={<div ref="text">this.props.text</div>}
         leftCheckbox={
           <Checkbox
             className="checkbox"
@@ -50,4 +50,4 @@ class TodoList extends React.PureComponent<Props, {}> {
   }
 }
 
-export default TodoList;
+export default TodoItem;

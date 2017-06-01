@@ -7,6 +7,10 @@
         "outDir": "ts-build",
         "experimentalDecorators": true
     },
+    "awesomeTypescriptLoaderOptions": {
+      "useBabel": true,
+      "useCache": true
+    },
     "include" : [
       "src/**/*",
       "node_modules/@types/*"
