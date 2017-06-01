@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {connect} from 'react-redux';
 import { List, Map } from 'immutable';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
@@ -6,7 +7,7 @@ import TodoList from './TodoList';
 
 interface Props {
   todos: List<Map<string, any>>;
-  filter?: string;
+  filter: string;
 }
 
 class TodoApp extends React.Component<Props, {}> {
@@ -25,4 +26,11 @@ class TodoApp extends React.Component<Props, {}> {
   }
 }
 
-export default TodoApp;
+function mapStateToProps(state: Map<{}, {}>) {
+  return {
+    todos: state.get('todos'),
+    filter: state.get('filter')
+  };
+}
+
+export const TodoAppContainer = connect(mapStateToProps)(TodoApp);

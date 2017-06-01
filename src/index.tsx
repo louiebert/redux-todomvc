@@ -1,23 +1,38 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { List, Map } from 'immutable';
+import {List, Map} from 'immutable';
+import {compose, createStore} from 'redux';
+import {Provider} from 'react-redux';
+import reducer from './reducer';
 import * as injectTapEventPlugin from 'react-tap-event-plugin';
 
-import TodoApp from './components/TodoApp';
+import {TodoAppContainer} from './components/TodoApp';
+import {SetStateAction} from './types/actions';
 
 import './styles/main.scss';
 
 injectTapEventPlugin();
 
-const todos = List.of(
-  Map({id: 1, text: 'React', status: 'active', editing: false}),
-  Map({id: 2, text: 'Redux', status: 'active', editing: false}),
-  Map({id: 3, text: 'Immutable', status: 'completed', editing: false})
-);
+const store = createStore(reducer,
+  (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__());
 
-const filter = 'all';
+const setStateAction: SetStateAction = {
+  type: 'SET_STATE',
+  state: {
+    todos: [
+      {id: 1, text: 'React', status: 'active', editing: false},
+      {id: 2, text: 'Redux', status: 'active', editing: false},
+      {id: 3, text: 'Immutable', status: 'active', editing: false}
+    ],
+    filter: 'all'
+  }
+};
+
+store.dispatch(setStateAction);
 
 ReactDOM.render(
-  <TodoApp todos={todos} filter={filter} />,
+  <Provider store={store}>
+    <TodoAppContainer />
+  </Provider>,
   document.getElementById('app')
 );
