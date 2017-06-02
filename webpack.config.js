@@ -15,14 +15,6 @@ module.exports = {
           'babel-loader?presets[]=es2015',
           'awesome-typescript-loader'
         ]
-      },
-      {
-        test: /\.scss?$/,
-        loaders: [
-          'style-loader',
-          'css-loader',
-          'sass-loader'
-        ]
       }
     ]
   },

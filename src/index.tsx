@@ -1,15 +1,13 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import {List, Map} from 'immutable';
-import {compose, createStore} from 'redux';
+import {createStore} from 'redux';
 import {Provider} from 'react-redux';
 import reducer from './reducer';
 import * as injectTapEventPlugin from 'react-tap-event-plugin';
 
 import {TodoAppContainer} from './components/TodoApp';
 import {SetStateAction} from './types/actions';
-
-import './styles/main.scss';
 
 injectTapEventPlugin();
 
@@ -24,7 +22,8 @@ const setStateAction: SetStateAction = {
       {id: 2, text: 'Redux', status: 'active', editing: false},
       {id: 3, text: 'Immutable', status: 'active', editing: false}
     ],
-    filter: 'all'
+    filter: 'all',
+    isDrawerOpen: false
   }
 };
 

@@ -5,6 +5,7 @@
     ],
     "jsRules": {},
     "rules": {
+      "curly": false,
       "interface-name": [true, "never-prefix"],
       "member-access": false,
       "no-console": [false],

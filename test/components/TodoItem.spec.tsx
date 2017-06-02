@@ -81,7 +81,7 @@ describe('TodoItem', () => {
         <TodoItem text={text} deleteItem={deleteItem} />
       </MuiThemeProvider>
     );
-    const buttons = scryRenderedDOMComponentsWithTag((component as React.Component<any, any>), 'button');
+    const buttons = scryRenderedDOMComponentsWithClass((component as React.Component<any, any>), 'delete-btn');
 
     Simulate.click(buttons[0]);
 
@@ -121,5 +121,69 @@ describe('TodoItem', () => {
     Simulate.doubleClick(label);
 
     expect(text).to.equal('Redux');
+  });
+
+  it('invokes callback when text cancel is clicked while editing', () => {
+    const text = 'React';
+    let canceled = false;
+    const cancelEditing = () => canceled = true;
+    const component = renderIntoDocument(
+      <MuiThemeProvider>
+        <TodoItem text={text} isEditing={true} cancelEditing={cancelEditing} />
+      </MuiThemeProvider>
+    );
+    const buttons = scryRenderedDOMComponentsWithClass((component as React.Component<any, any>), 'cancel-btn');
+
+    Simulate.click(buttons[0]);
+
+    expect(canceled).to.equal(true);
+  });
+
+  it('does not invoke callbacks when textField is empty and done is clicked while editing', () => {
+    const text = 'React';
+    let done = false;
+    const cancelEditing = () => done = true;
+    const editingText = () => done = true;
+    const component = renderIntoDocument(
+      <MuiThemeProvider>
+        <TodoItem
+          text={text}
+          isEditing={true}
+          cancelEditing={cancelEditing}
+          editingText={editingText}
+        />
+      </MuiThemeProvider>
+    );
+    const buttons = scryRenderedDOMComponentsWithClass((component as React.Component<any, any>), 'done-btn');
+
+    Simulate.click(buttons[0]);
+
+    expect(done).to.equal(false);
+  });
+
+  it('invokes callbacks when textField has text and done is clicked while editing', () => {
+    const text = 'React';
+    const tempText = 'R';
+    let done = false;
+    let tempTextChanged = false;
+    const doneEditing = () => done = true;
+    const editingText = () => tempTextChanged = true;
+    const component = renderIntoDocument(
+      <MuiThemeProvider>
+        <TodoItem
+          text={text}
+          tempText={tempText}
+          isEditing={true}
+          doneEditing={doneEditing}
+          editingText={editingText}
+        />
+      </MuiThemeProvider>
+    );
+    const buttons = scryRenderedDOMComponentsWithClass((component as React.Component<any, any>), 'done-btn');
+
+    Simulate.click(buttons[0]);
+
+    expect(done).to.equal(true);
+    expect(tempTextChanged).to.equal(true);
   });
 });
