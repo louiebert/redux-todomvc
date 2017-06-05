@@ -49,16 +49,21 @@ class TodoItem extends React.PureComponent<Props, {}> {
             onClick={() => this.props.toggleComplete(this.props.id)}
           />
         }
-        style={{fontFamily: 'Roboto', margin: "0px auto"}}
+        style={{fontFamily: 'Roboto', margin: "0px auto", paddingRight: 48}}
       >
         {this.props.isEditing ?
-          <TextField
-            hintText={this.props.text}
-            style={{width: "auto"}}
-            onChange={(event: React.FormEvent<HTMLInputElement>) => {
-              this.props.editingText(this.props.id, event.currentTarget.value);
-            }}
-          />
+          <div>
+            <TextField
+              hintText={this.props.text}
+              multiLine={true}
+              rowsMax={3}
+              style={{width: "100%", marginTop: -16, verticalAlign: "bottom"}}
+              onChange={(event: React.FormEvent<HTMLInputElement>) => {
+                this.props.editingText(this.props.id, event.currentTarget.value);
+              }}
+            />
+            <br/>
+          </div>
           : null
         }
         {this.props.isEditing ?
@@ -84,9 +89,10 @@ class TodoItem extends React.PureComponent<Props, {}> {
           : null
         }
         {this.props.isEditing ? null :
-          <IconButton 
+          <IconButton
             className="delete-btn"
             onClick={() => this.props.deleteItem(this.props.id)}
+            style={{position: 'absolute', right: 5, top: 0}}
           >
             <RemoveCircleOutline color={pinkA200} />
           </IconButton>
