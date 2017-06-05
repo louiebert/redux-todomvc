@@ -1,17 +1,17 @@
 import * as acts from './types/actions';
 
-export function toggleDrawer(openDrawer: boolean) {
+export function addItem(text: string) {
   return ({
-    type: 'TOGGLE_DRAWER',
-    openDrawer
-  } as acts.ToggleDrawerAction);
+    type: 'ADD_ITEM',
+    text
+  } as acts.AddItemAction);
 }
 
-export function toggleComplete(itemId: number) {
+export function cancelEditing(itemId: number) {
   return ({
-    type: 'TOGGLE_COMPLETE',
+    type: 'CANCEL_EDITING',
     itemId
-  } as acts.ToggleCompleteAction);
+  } as acts.CancelEditingAction);
 }
 
 export function changeFilter(filter: string) {
@@ -21,11 +21,46 @@ export function changeFilter(filter: string) {
   } as acts.ChangeFilterAction);
 }
 
+export function clearCompleted() {
+  return ({
+    type: 'CLEAR_COMPLETED'
+  } as acts.ClearCompletedAction);
+}
+
+export function creatingItem(isCreating: boolean) {
+  return ({
+    type: 'CREATING_ITEM',
+    isCreating
+  } as acts.CreateItemAction);
+}
+
+export function deleteItem(itemId: number) {
+  return ({
+    type: 'DELETE_ITEM',
+    itemId
+  } as acts.DeleteItemAction);
+}
+
+export function doneEditing(itemId: number, newText: string) {
+  return ({
+    type: 'DONE_EDITING',
+    itemId,
+    newText
+  } as acts.DoneEditingAction);
+}
+
 export function editItem(itemId: number) {
   return ({
     type: 'EDIT_ITEM',
     itemId
   } as acts.EditItemAction);
+}
+
+export function editingNew(newItemText: string) {
+  return ({
+    type: 'EDITING_NEW',
+    newItemText
+  } as acts.EditingNewAction);
 }
 
 export function editingText(itemId: number, tempText: string) {
@@ -36,17 +71,16 @@ export function editingText(itemId: number, tempText: string) {
   } as acts.EditingTextAction);
 }
 
-export function cancelEditing(itemId: number) {
+export function toggleComplete(itemId: number) {
   return ({
-    type: 'CANCEL_EDITING',
+    type: 'TOGGLE_COMPLETE',
     itemId
-  } as acts.CancelEditingAction);
+  } as acts.ToggleCompleteAction);
 }
 
-export function doneEditing(itemId: number, newText: string) {
+export function toggleDrawer(openDrawer: boolean) {
   return ({
-    type: 'DONE_EDITING',
-    itemId,
-    newText
-  } as acts.DoneEditingAction);
+    type: 'TOGGLE_DRAWER',
+    openDrawer
+  } as acts.ToggleDrawerAction);
 }

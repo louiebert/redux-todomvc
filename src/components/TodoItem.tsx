@@ -23,6 +23,20 @@ class TodoItem extends React.PureComponent<Props, {}> {
     super(props);
   }
 
+  onKeyPress(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      if (this.props.tempText && this.props.tempText.length > 0) {
+        this.submitEdits();
+      }
+    }
+  }
+
+  submitEdits() {
+    this.props.doneEditing(this.props.id, this.props.tempText);
+    this.props.editingText(this.props.id, '');
+  }
+
   render() {
     const itemClass = classNames({
       'todo-item': true,
@@ -46,7 +60,7 @@ class TodoItem extends React.PureComponent<Props, {}> {
           <Checkbox
             className="checkbox"
             checked={this.props.isCompleted || false}
-            onClick={() => this.props.toggleComplete(this.props.id)}
+            onCheck={() => this.props.toggleComplete(this.props.id)}
           />
         }
         style={{fontFamily: 'Roboto', margin: "0px auto", paddingRight: 48}}
@@ -55,12 +69,12 @@ class TodoItem extends React.PureComponent<Props, {}> {
           <div>
             <TextField
               hintText={this.props.text}
-              multiLine={true}
-              rowsMax={3}
               style={{width: "100%", marginTop: -16, verticalAlign: "bottom"}}
               onChange={(event: React.FormEvent<HTMLInputElement>) => {
                 this.props.editingText(this.props.id, event.currentTarget.value);
               }}
+              autoFocus
+              onKeyPress={(event) => this.onKeyPress(event)}
             />
             <br/>
           </div>
@@ -71,7 +85,7 @@ class TodoItem extends React.PureComponent<Props, {}> {
             className="cancel-btn"
             label="Cancel"
             secondary={true}
-            onClick={() => this.props.cancelEditing(this.props.id)}
+            onTouchTap={() => this.props.cancelEditing(this.props.id)}
           />
           : null
         }
@@ -80,10 +94,7 @@ class TodoItem extends React.PureComponent<Props, {}> {
             className="done-btn"
             label="Done"
             primary={true}
-            onClick={() => {
-              this.props.doneEditing(this.props.id, this.props.tempText);
-              this.props.editingText(this.props.id, '');
-            }}
+            onTouchTap={() => this.submitEdits()}
             disabled={!this.props.tempText || this.props.tempText.length === 0}
           />
           : null
@@ -91,7 +102,7 @@ class TodoItem extends React.PureComponent<Props, {}> {
         {this.props.isEditing ? null :
           <IconButton
             className="delete-btn"
-            onClick={() => this.props.deleteItem(this.props.id)}
+            onTouchTap={() => this.props.deleteItem(this.props.id)}
             style={{position: 'absolute', right: 5, top: 0}}
           >
             <RemoveCircleOutline color={pinkA200} />

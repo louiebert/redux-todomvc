@@ -1,6 +1,7 @@
 import {fromJS, List, Map} from 'immutable';
 import {expect} from 'chai';
 import 'mocha';
+import * as randomstring from 'randomstring';
 
 import reducer from '../src/reducer';
 import * as acts from '../src/types/actions';
@@ -149,9 +150,6 @@ describe('reducer', () => {
 
   it('handles TOGGLE_DRAWER by switching drawerOpen from false to true', () => {
     const initialState = fromJS({
-      todos: [
-        {id: 1, text: 'React', status: 'active'}
-      ],
       isDrawerOpen: false
     });
     const action: acts.ToggleDrawerAction = {
@@ -162,9 +160,6 @@ describe('reducer', () => {
     const nextState = reducer(initialState, action);
 
     expect(nextState).to.equal(fromJS({
-      todos: [
-        {id: 1, text: 'React', status: 'active'}
-      ],
       isDrawerOpen: true
     }));
   });
@@ -236,18 +231,115 @@ describe('reducer', () => {
         {id: 1, text: 'React', status: 'active', editing: true}
       ]
     });
+    const itemText = randomstring.generate(1);
     const action: acts.EditingTextAction = {
       type: 'EDITING_TEXT',
       itemId: 1,
-      tempText: 'R'
+      tempText: itemText
     };
 
     const nextState = reducer(initialState, action);
 
     expect(nextState).to.equal(fromJS({
       todos: [
-        {id: 1, text: 'React', status: 'active', editing: true, tempText: 'R'}
+        {id: 1, text: 'React', status: 'active', editing: true, tempText: itemText}
       ]
+    }));
+  });
+
+  it('handles CLEAR_COMPLETED by removing all completed todos', () => {
+    const initialState = fromJS({
+      todos: [
+        {id: 1, text: 'React', status: 'active'},
+        {id: 2, text: 'Redux', status: 'completed'}
+      ]
+    });
+    const action: acts.ClearCompletedAction = {
+      type: 'CLEAR_COMPLETED'
+    };
+
+    const nextState = reducer(initialState, action);
+
+    expect(nextState).to.equal(fromJS({
+      todos: [
+        {id: 1, text: 'React', status: 'active'}
+      ]
+    }));
+  });
+
+  it('handles ADD_ITEM by inserting a new item into the state', () => {
+    const initialState = fromJS({
+      todos: [
+        {id: 1, text: 'React', status: 'active'}
+      ]
+    });
+    const action: acts.AddItemAction = {
+      type: 'ADD_ITEM',
+      text: 'Redux'
+    };
+
+    const nextState = reducer(initialState, action);
+
+    expect(nextState).to.equal(fromJS({
+      todos: [
+        {id: 1, text: 'React', status: 'active'},
+        {id: 2, text: 'Redux', status: 'active'}
+      ]
+    }));
+  });
+
+  it('handles DELETE_ITEM by removing specified item from the state', () => {
+    const initialState = fromJS({
+      todos: [
+        {id: 1, text: 'React', status: 'active'},
+        {id: 2, text: 'Redux', status: 'active'}
+      ]
+    });
+    const action: acts.DeleteItemAction = {
+      type: 'DELETE_ITEM',
+      itemId: 2
+    };
+
+    const nextState = reducer(initialState, action);
+
+    expect(nextState).to.equal(fromJS({
+      todos: [
+        {id: 1, text: 'React', status: 'active'}
+      ]
+    }));
+  });
+
+  it('handles CREATING_ITEM by setting isCreating from false to true', () => {
+    const initialState = fromJS({
+      isCreating: false
+    });
+    const action: acts.CreateItemAction = {
+      type: 'CREATING_ITEM',
+      isCreating: true
+    };
+
+    const nextState = reducer(initialState, action);
+
+    expect(nextState).to.equal(fromJS({
+      isCreating: true
+    }));
+  });
+
+  it('handles EDITING_NEW by changing the editingNewText accordingly', () => {
+    const initialState = fromJS({
+      isCreating: true
+    });
+    const itemText = randomstring.generate(1);
+    const action: acts.EditingNewAction = {
+      type: 'EDITING_NEW',
+      newItemText: itemText
+    };
+
+    const nextState = reducer(initialState, action);
+
+    expect(nextState).to.equal(fromJS({
+      isCreating: true,
+      newItemText: itemText
     }));
   });
 });
